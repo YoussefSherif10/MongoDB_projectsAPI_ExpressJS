@@ -24,7 +24,7 @@ const findProjectByQuery = (query, done) => {
 
     // select ==> projection of the result
     // lean ==> returns JSON not BSON
-    projectModel.find(project).select({_id: 0, _v: 0}).lean()
+    projectModel.find(project).select({_id: 0, __v: 0}).lean()
         .exec().then(data => {
             return done(null, data);
     }).catch((error) => {
@@ -33,4 +33,24 @@ const findProjectByQuery = (query, done) => {
     })
 }
 
-module.exports = {saveProject, findProjectByQuery};
+const updateProjectDetails = (projectId, projectReq, done) => {
+    projectModel.findOneAndUpdate({_id: projectId}, projectReq, {new: true})
+        .then(data => {
+            if (data == null)
+                return done('project Not Found');
+            return done(null, data);
+        }).catch((err) => {
+            console.log("Failed to update ", err);
+            return done('Failed to update', null);
+    })
+}
+
+const deleteProjectByQuery = (projectId, done) => {
+    projectModel.deleteOne({_id: projectId}).then(data => {
+        return done(null, data);
+    }).catch(err => {
+        return done(err)
+    })
+}
+
+module.exports = {saveProject, findProjectByQuery, updateProjectDetails, deleteProjectByQuery};

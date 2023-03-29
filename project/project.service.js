@@ -8,4 +8,12 @@ const findProjectByQuery = (projectReq, done) => {
     projectDAO.findProjectByQuery(projectReq, done);
 }
 
-module.exports = {saveProject, findProjectByQuery}
+const updateProjectDetails = (projectId, projectReq, done) => {
+    projectDAO.updateProjectDetails(projectId, projectReq, done);
+}
+
+const deleteProjectByQuery = (projectId, done) => {
+    projectDAO.deleteProjectByQuery(projectId, done);
+}
+
+module.exports = {saveProject, findProjectByQuery, updateProjectDetails, deleteProjectByQuery}
