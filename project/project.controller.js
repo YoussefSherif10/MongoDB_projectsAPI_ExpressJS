@@ -4,4 +4,8 @@ const saveProject = (projectReq, done) => {
     projectService.saveProject(projectReq, done);
 }
 
-module.exports = {saveProject};
+const findProjectByQuery = (projectReq, done) => {
+    projectService.findProjectByQuery(projectReq, done);
+}
+
+module.exports = {saveProject, findProjectByQuery};

@@ -15,4 +15,22 @@ const saveProject = (projectReq, done) => {
     })
 }
 
-module.exports = {saveProject};
+const findProjectByQuery = (query, done) => {
+    let project = {};
+    if (query.premiseType !== "")
+        project["premiseType"] = query.premiseType;
+    if (query.ownership !== "")
+        project["ownership"] = query.ownership;
+
+    // select ==> projection of the result
+    // lean ==> returns JSON not BSON
+    projectModel.find(project).select({_id: 0, _v: 0}).lean()
+        .exec().then(data => {
+            return done(null, data);
+    }).catch((error) => {
+        console.log("unable to find the document: ", error);
+        return done('Failed to retrieve the data', null);
+    })
+}
+
+module.exports = {saveProject, findProjectByQuery};
